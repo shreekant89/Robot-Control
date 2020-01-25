@@ -1,11 +1,9 @@
 ﻿using Robot_Control.Common;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Robot_Control.Logic
 {
-    public class Position: IRoom
+    public class Position : IRoom
     {
         public IPoint StartPosition { get; set; }
         public int X { get; set; }
@@ -17,12 +15,13 @@ namespace Robot_Control.Logic
         }
 
 
-        public void Movement() {
+        public void Movement()
+        {
 
-            StartPosition.X= Validation.Validate.GetNumberInput("Enter x axis starting point (int)");
-            StartPosition.Y= Validation.Validate.GetNumberInput("Enter y axis starting point(int)");
-            X= Validation.Validate.GetNumberInput("Enter x length limit ");
-             Y=Validation.Validate.GetNumberInput("Enter y length limit ");
+            StartPosition.X = Validation.Validate.GetNumberInput("Enter x axis starting point (int)");
+            StartPosition.Y = Validation.Validate.GetNumberInput("Enter y axis starting point(int)");
+            X = Validation.Validate.GetNumberInput("Enter x length limit ");
+            Y = Validation.Validate.GetNumberInput("Enter y length limit ");
 
             Console.WriteLine("Enter String for movement: ");
             string move = Console.ReadLine();
@@ -34,49 +33,49 @@ namespace Robot_Control.Logic
                 Movement();
         }
 
-        public object finalPosition(String path)
+        public object finalPosition(string path)
         {
-            
+
             try
             {
-                if (path.Length < 1)                
+                if (path.Length < 1)
                     throw new Exception("Instruction is missing");
 
                 int x = StartPosition.X, y = StartPosition.Y; int dir = 0;
                 path = path.ToUpper();
 
-            for (int i = 0; i < path.Length; i++)
-            {
-                char move = path[i];
-                // If move is left or 
-                // right, then change direction 
-                if (((char)Direction.Right).Equals(move) || ((char)Direction.Hoger).Equals(move))
-                    dir = (dir + 1) % 4;
-                else if (((char)Direction.Left).Equals(move) || ((char)Direction.Vanster).Equals(move))
-                    dir = (4 + dir - 1) % 4;
-
-                // If move is Go, then  
-                // change x or y according to 
-                // current direction 
-                // if (move == 'G') 
-                else if (((char)Direction.Forward).Equals(move) || ((char)Direction.Go).Equals(move))
+                for (int i = 0; i < path.Length; i++)
                 {
-                    if (dir == 0)
-                        y++;
-                    else if (dir == 1)
-                        x++;
-                    else if (dir == 2)
-                        y--;
-                    else // dir == 3 
-                        x--;
-                }
-                else
-                {
-                    Console.WriteLine("incorrect instruction:-" + move);
-                    return false;
-                }
+                    char move = path[i];
+                    // If move is left or 
+                    // right, then change direction 
+                    if (((char)Direction.Right).Equals(move) || ((char)Direction.Hoger).Equals(move))                    
+                        dir = (dir + 1) % 4;
+                    
+                    else if (((char)Direction.Left).Equals(move) || ((char)Direction.Vanster).Equals(move))
+                        dir = (4 + dir - 1) % 4;
 
-            }
+                    // If move is Go, then  
+                    // change x or y according to 
+                    // current direction 
+                    else if (((char)Direction.Forward).Equals(move) || ((char)Direction.Go).Equals(move))
+                    {
+                        if (dir == 0)
+                            y++;
+                        else if (dir == 1)
+                            x++;
+                        else if (dir == 2)
+                            y--;
+                        else // dir == 3 
+                            x--;
+                    }
+                    else
+                    {
+                        Console.WriteLine("incorrect instruction:-" + move);
+                        return false;
+                    }
+
+                }
 
                 Console.WriteLine("x position: " + x + ", y position: " + y + "");
                 getDirection(dir);
@@ -86,7 +85,7 @@ namespace Robot_Control.Logic
                     return false;
                 }
 
-                    return true;
+                return true;
             }
             catch (Exception ex)
             {
@@ -94,7 +93,7 @@ namespace Robot_Control.Logic
             }
         }
 
-        
+
 
         private static void getDirection(int dir)
         {
